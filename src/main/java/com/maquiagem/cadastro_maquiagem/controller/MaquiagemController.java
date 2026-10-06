@@ -26,15 +26,16 @@ public class MaquiagemController {
         return ResponseEntity.ok(service.buscarMaquiagemPorMarca(marca));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Void> atualizarPorId(@PathVariable Integer id, @RequestBody Maquiagem maquiagem) {
-        service.atualizarMaquiagemPorId(id, maquiagem);
-        return ResponseEntity.ok().build();
-    }
 
     @DeleteMapping("/{marca}")
     public ResponseEntity<Void> deletarPorMarca(@PathVariable String marca) {
         service.deletarMaquiagemPorMarca(marca);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> atualizarPorId(@PathVariable Integer id, @RequestBody Maquiagem maquiagem) {
+        service.atualizarMaquiagemPorId(id, maquiagem);
+        return ResponseEntity.ok().build();
     }
 }
