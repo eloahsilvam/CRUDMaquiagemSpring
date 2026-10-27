@@ -19,15 +19,15 @@ public class Maquiagem {
     @Column(name = "nome")
     private String nome;
 
-    @Column(name = "Marca")
+    @Column(name = "marca")
     private String marca;
 
     @Column(name = "cor")
     private String cor;
 
     @Column(name = "preco")
-    private Boolean preco;
+    private Double preco;
 
     @Column(name = "quantidade")
-    private Boolean quantidade;
+    private Integer quantidade;
 }

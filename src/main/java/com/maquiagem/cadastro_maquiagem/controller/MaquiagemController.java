@@ -5,6 +5,8 @@ import com.maquiagem.cadastro_maquiagem.infraestructure.entitys.Maquiagem;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/maquiagem")
 public class MaquiagemController {
@@ -22,7 +24,7 @@ public class MaquiagemController {
     }
 
     @GetMapping("/{marca}")
-    public ResponseEntity<Maquiagem> buscarPorMarca(@PathVariable String marca) {
+    public ResponseEntity<List<Maquiagem>> buscarPorMarca(@PathVariable String marca) {
         return ResponseEntity.ok(service.buscarMaquiagemPorMarca(marca));
     }
 

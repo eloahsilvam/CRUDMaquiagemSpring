@@ -2,9 +2,10 @@ package com.maquiagem.cadastro_maquiagem.business;
 
 import com.maquiagem.cadastro_maquiagem.infraestructure.entitys.Maquiagem;
 import com.maquiagem.cadastro_maquiagem.infraestructure.repository.MaquiagemRepository;
-import jakarta.persistence.Entity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class MaquiagemService {
@@ -19,10 +20,8 @@ public class MaquiagemService {
         repository.saveAndFlush(maquiagem);
     }
 
-    public Maquiagem buscarMaquiagemPorMarca(String marca) {
-        return repository.findByMarca(marca).orElseThrow(
-                () -> new RuntimeException("Marca não encontrada")
-        );
+    public List<Maquiagem> buscarMaquiagemPorMarca(String marca) {
+        return repository.findByMarca(marca);
     }
 
     @Transactional
@@ -30,16 +29,26 @@ public class MaquiagemService {
         repository.deleteByMarca(marca);
     }
 
-    public void atualizarMaquiagemPorId(Integer id, Maquiagem maquiagem) {
-        Maquiagem maquiagemEntity = repository.findById(id).orElseThrow(() ->
-                new RuntimeException("Maquiagem nao encontrada"));
-        Maquiagem maquiagemAtualizada = Maquiagem.builder()
-                .marca(maquiagem.getMarca() != null ? maquiagem.getMarca() :
-                        maquiagemEntity.getMarca())
-                .nome(maquiagem.getNome() != null ? maquiagem.getNome() :
-                        maquiagemEntity.getNome())
-                .id(maquiagemEntity.getId())
-                .build();
-        repository.saveAndFlush(maquiagemAtualizada);
+    public void atualizarMaquiagemPorId(Integer id, Maquiagem maquiagemAtualizada) {
+        Maquiagem maquiagemExistente = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Maquiagem não encontrada"));
+
+        if (maquiagemAtualizada.getNome() != null) {
+            maquiagemExistente.setNome(maquiagemAtualizada.getNome());
+        }
+        if (maquiagemAtualizada.getMarca() != null) {
+            maquiagemExistente.setMarca(maquiagemAtualizada.getMarca());
+        }
+        if (maquiagemAtualizada.getCor() != null) {
+            maquiagemExistente.setCor(maquiagemAtualizada.getCor());
+        }
+        if (maquiagemAtualizada.getPreco() != null) {
+            maquiagemExistente.setPreco(maquiagemAtualizada.getPreco());
+        }
+        if (maquiagemAtualizada.getQuantidade() != null) {
+            maquiagemExistente.setQuantidade(maquiagemAtualizada.getQuantidade());
+        }
+
+        repository.save(maquiagemExistente);
     }
 }
